@@ -472,37 +472,6 @@
         <p>© H&M ILUMINACIÓN. Todos los derechos reservados.</p>
     </div>
 </footer>
-<script>
-    document.querySelector(".subscribe-form").addEventListener("submit", function(e) {
-        e.preventDefault(); // Previene el envío real del formulario
-
-        // Obtener valores del formulario
-        const nombre = document.querySelector('input[placeholder="Nombre"]').value.trim();
-        const correo = document.querySelector('input[placeholder="Correo"]').value.trim();
-const comentario = document.querySelector('textarea[name="comentario"]').value.trim();
-
-        // Validar campos básicos
-        if (!nombre || !correo || !comentario) {
-            alert("Por favor, complete todos los campos.");
-            return;
-        }
-
-        // Crear contenido del archivo
-        const contenido = `Nombre: ${nombre}\nCorreo: ${correo}\nComentario: ${comentario}`;
-
-        // Crear un blob con el contenido del archivo
-        const blob = new Blob([contenido], { type: "text/plain" });
-
-        // Crear un enlace temporal y simular clic para descargar
-        const enlace = document.createElement("a");
-        enlace.href = URL.createObjectURL(blob);
-        enlace.download = "comentario.txt"; // Nombre del archivo que se descargará
-        enlace.click();
-
-        // Limpiar formulario
-        document.querySelector(".subscribe-form").reset();
-    });
-</script>
 
 </body>
 </html>
