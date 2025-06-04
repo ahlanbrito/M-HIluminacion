@@ -62,6 +62,59 @@ video {
   filter: saturate(1.2) contrast(1.1);
 }
 
+/* --- Personalización de los Controles del Video --- */
+
+/* Estilo general para los controles (puedes ajustar el fondo de la barra de control) */
+video::-webkit-media-controls-panel {
+  background-color: #ff6600; /* Color naranja fuerte para la barra de controles */
+  border-radius: 15px; /* Bordes redondeados para la barra */
+  padding: 5px 10px;
+}
+
+/* Botón de Reproducir/Pausa */
+video::-webkit-media-controls-play-button {
+  background-color: #fffd00; /* Fondo amarillo para el botón de play */
+  border-radius: 50%; /* Lo hace circular */
+  padding: 8px; /* Espaciado interno */
+  margin-right: 10px;
+  border: 2px solid #ff9933; /* Borde naranja más claro */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra para darle profundidad */
+  transition: background-color 0.3s ease;
+}
+
+video::-webkit-media-controls-play-button:hover {
+  background-color: #ffeb3b; /* Un amarillo un poco más claro al pasar el ratón */
+  cursor: pointer;
+}
+
+/* Barra de progreso (track) */
+video::-webkit-media-controls-timeline {
+  background-color: #ff9933; /* Naranja medio para la barra de tiempo */
+  border-radius: 5px;
+}
+
+/* Indicador de progreso (thumb) */
+video::-webkit-media-controls-current-time-display,
+video::-webkit-media-controls-time-remaining-display {
+  color: #fff8e7; /* Texto blanco cremoso para el tiempo */
+  font-weight: bold;
+}
+
+/* Slider de Volumen (la barra) */
+video::-webkit-media-controls-volume-slider {
+  background-color: #ff9933; /* Naranja medio para la barra de volumen */
+  border-radius: 5px;
+  width: 80px; /* Ancho del slider */
+  height: 8px;
+  margin: 0 10px;
+}
+
+/* Icono de Volumen (el altavoz) */
+video::-webkit-media-controls-mute-button {
+  color: #fffd00; /* Icono de volumen amarillo */
+  font-size: 20px;
+}
+
 /* Responsividad y estética adicional */
 @media (max-width: 768px) {
   h1 {
@@ -70,5 +123,15 @@ video {
 
   .about-container {
     padding: 15px;
+  }
+
+  /* Ajustes para controles en pantallas pequeñas */
+  video::-webkit-media-controls-play-button {
+    padding: 6px;
+    margin-right: 5px;
+  }
+
+  video::-webkit-media-controls-volume-slider {
+    width: 60px; /* Reducir el ancho del slider de volumen */
   }
 }
