@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Carrito de Compras | M&H ILUMINACIÓN</title>
+        <link rel="stylesheet" href="../estilos/stylecarrito.css">
+    </head>
+    <body>
+<header class="header">
+    <a href="../index.html" class="logo-link">
+        <div class="logo">M&H<span> ILUMINACIÓN</span>
+            <small> tienda online</small>
+        </div>
+    </a>
+    <input type="text" placeholder="¿Qué estás buscando?">
+    <div class="icons">
+
+        <a href="../paginas/carrito.html" class="icon-link">
+            🛒 <span class="count">0</span>
+        </a>
+        <div id="user-status">
+            <a href="../paginas/Login.html" id="login-link">Ingresar / Registrarse</a>
+            <div id="user-profile" style="display: none; align-items: center; gap: 10px;">
+                <span id="username-display" style="color: #ff9900; font-weight: bold;"></span>
+                <button id="logout-btn" style="background: #f0f0f0; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                    Cerrar sesión
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+        
+
+        <main class="carrito-container">
+            <div class="carrito-header">
+                <h1>CARRITO DE COMPRAS</h1>
+                <div class="carrito-acciones">
+                    <span id="total-items">0 productos</span>
+                </div>
+            </div>
+            
+            <div class="carrito-body" id="listaCarrito">
+                </div>
+            
+            <div class="carrito-resumen" id="resumenCarrito">
+                </div>
+        </main>
+
+        <a class="whatsapp" href="https://wa.me/123456789" target="_blank">💬</a>
+<script src="../js/script.js"></script>
+
+        <script>
+            // Obtener carrito de localStorage
+            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            
+            // Mostrar items del carrito
+            function mostrarCarrito() {
+                const listaCarrito = document.getElementById('listaCarrito');
+                const resumenCarrito = document.getElementById('resumenCarrito');
+                const totalItemsElement = document.getElementById('total-items');
+                
+                if (carrito.length === 0) {
+                    listaCarrito.innerHTML = `
+                        <div class="carrito-vacio">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="10" cy="20.5" r="1"/><circle cx="18" cy="20.5" r="1"/>
+                                <path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1"/>
+                            </svg>
+                            <h3>Tu carrito está vacío</h3>
+                            <p>Explora nuestros productos y encuentra lo que necesitas</p>
+                            <a href="../index.html" class="btn-seguir-comprando">Seguir comprando</a>
+                        </div>
+                    `;
+                    resumenCarrito.innerHTML = '';
+                    actualizarContadorCarrito();
+                    return;
+                }
+                
+                // Actualizar contador de items
+                const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
+                totalItemsElement.textContent = `${totalItems} ${totalItems === 1 ? 'producto' : 'productos'}`;
+                
+                // Mostrar items
+                listaCarrito.innerHTML = '';
+                carrito.forEach((item, index) => {
+                    const subtotal = item.precio * item.cantidad;
+                    const itemHTML = `
+                        <div class="item-carrito">
+                            <div class="item-imagen">
+                                <img src="${item.imagen}" alt="${item.titulo}">
+                            </div>
+                            <div class="item-detalles">
+                                <div class="item-info">
+                                    <h3 class="item-titulo">${item.titulo}</h3>
+                                    <div class="item-variantes">
+                                        <span class="item-color">${item.color}</span>
+                                        <span class="item-talla">${item.talla}</span>
+                                    </div>
+                                </div>
+                                <div class="item-precio">
+                                    <span class="precio-unitario">$${item.precio.toFixed(2)} c/u</span>
+                                    <span class="precio-total">$${subtotal.toFixed(2)}</span>
+                                </div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="cantidad-control">
+                                    <button class="btn-cantidad menos" onclick="cambiarCantidad(${index}, -1)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                    <span class="cantidad">${item.cantidad}</span>
+                                    <button class="btn-cantidad mas" onclick="cambiarCantidad(${index}, 1)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <button class="btn-eliminar" onclick="eliminarItem(${index})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    listaCarrito.innerHTML += itemHTML;
+                });
+                
+                // Calcular total
+                const subtotal = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+                const envio = subtotal > 100 ? 0 : 15;
+                const total = subtotal + envio;
+                
+                // Mostrar resumen
+                resumenCarrito.innerHTML = `
+                    <div class="resumen-detalle">
+                        <div class="resumen-linea">
+                            <span>Subtotal</span>
+                            <span>$${subtotal.toFixed(2)}</span>
+                        </div>
+                        <div class="resumen-linea">
+                            <span>Envío</span>
+                            <span>${envio === 0 ? 'Gratis' : `$${envio.toFixed(2)}`}</span>
+                        </div>
+                        <div class="resumen-total">
+                            <span>Total</span>
+                            <span>$${total.toFixed(2)}</span>
+                        </div>
+                    </div>
+                    <button class="btn-pagar" onclick="pagar()">Proceder al pago</button>
+                `;
+                
+                // Actualizar contador
+                actualizarContadorCarrito();
+            }
+            
+            // Funciones para manejar el carrito
+            function cambiarCantidad(index, cambio) {
+                const nuevaCantidad = carrito[index].cantidad + cambio;
+                if (nuevaCantidad > 0) {
+                    carrito[index].cantidad = nuevaCantidad;
+                    actualizarCarrito();
+                }
+            }
+            
+            function eliminarItem(index) {
+                if (confirm('¿Estás seguro de que quieres eliminar este producto de tu carrito?')) {
+                    carrito.splice(index, 1);
+                    actualizarCarrito();
+                }
+            }
+            
+            function pagar() {
+                if (carrito.length === 0) {
+                    alert('Tu carrito está vacío');
+                    return;
+                }
+
+                // Verificar si hay un usuario logueado
+                const userEmail = sessionStorage.getItem('currentUser') || localStorage.getItem('rememberedUser');
+
+                if (userEmail) {
+                    // Si el usuario está logueado, redirigir a Pago.html
+                    window.location.href = '../paginas/pago.html';
+                } else {
+                    // Si el usuario no está logueado, mostrar el mensaje y redirigir a Login.html
+                    alert('Para continuar con la compra, primero debes iniciar sesión.');
+                    window.location.href = 'Login.html';
+                }
+            }
+            
+            function actualizarCarrito() {
+                localStorage.setItem('carrito', JSON.stringify(carrito));
+                mostrarCarrito();
+            }
+            
+            function actualizarContadorCarrito() {
+                const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
+                // Asegúrate de que el elemento con ID 'contador-carrito' exista en tu HTML.
+                // Si tu contador del carrito está dentro del span con clase 'count', es mejor
+                // darle un ID para que esta función pueda actualizarlo.
+                // Por ahora, asumo que existe un elemento con ID 'contador-carrito'
+                // o que el contador es actualizado de otra forma.
+                const carritoCountElement = document.querySelector('.icon-link .count');
+                if (carritoCountElement) {
+                    carritoCountElement.textContent = totalItems;
+                }
+            }
+            
+            // Inicializar carrito al cargar la página
+            document.addEventListener('DOMContentLoaded', function() {
+                mostrarCarrito();
+            });
+        </script>
+    </body>
+
+    </html>

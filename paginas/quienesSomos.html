@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiénes Somos | M&H ILUMINACIÓN</title>
+    <link rel="stylesheet" href="../estilos/styles.css">
+    <link rel="stylesheet" href="../estilos/quienes-somos.css">
+    <link rel="stylesheet" href="../estilos/reproductor.css">
+</head>
+<body>
+<header class="header">
+    <a href="../index.html" class="logo-link">
+        <div class="logo">M&H<span> ILUMINACIÓN</span>
+            <small> tienda online</small>
+        </div>
+    </a>
+    <input type="text" placeholder="¿Qué estás buscando?">
+    <div class="icons">
+
+        <a href="../paginas/carrito.html" class="icon-link">
+            🛒 <span class="count">0</span>
+        </a>
+        <div id="user-status">
+            <a href="paginas/Login.html" id="login-link">Ingresar / Registrarse</a>
+            <div id="user-profile" style="display: none; align-items: center; gap: 10px;">
+                <span id="username-display" style="color: #ff9900; font-weight: bold;"></span>
+                <button id="logout-btn" style="background: #f0f0f0; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                    Cerrar sesión
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+    <main class="about-container">
+        <section class="who-we-are-video-section">
+            <h1>Quiénes Somos</h1> <div class="video-wrapper">
+                <video controls autoplay loop  playsinline>
+                    <source src="../videos/Vídeo sin título ‐ Hecho con Clipchamp (2).mp4" type="video/mp4">
+                    Tu navegador no soporta el tag de video.
+                </video>
+            </div>
+        </section>
+        
+        <section class="values-section">
+            <h2>Nuestros Valores</h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <div class="value-icon">💡</div>
+                    <h3>Innovación</h3>
+                    <p>Buscamos constantemente nuevas tecnologías y diseños para ofrecer productos vanguardistas.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🌱</div>
+                    <h3>Sostenibilidad</h3>
+                    <p>Promovemos el uso de materiales reciclables y tecnologías de bajo consumo energético.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🤝</div>
+                    <h3>Integridad</h3>
+                    <p>Operamos con transparencia y honestidad en todas nuestras relaciones comerciales.</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">❤️</div>
+                    <h3>Pasión</h3>
+                    <p>Amamos lo que hacemos y eso se refleja en cada producto y servicio que ofrecemos.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+<script src="../js/script.js"></script>
+</body>
+
+</html>

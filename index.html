@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H&M Tienda Online</title>
+    <link rel="stylesheet" href="estilos/styles.css">
+</head>
+<body>
+<header class="header">
+    <div class="logo">M&H<span> ILUMINACIÓN</span>
+        <small> tienda online</small>
+    </div>
+    <input type="text" placeholder="¿Qué estás buscando?">
+    <div class="icons">
+
+        <a href="paginas/carrito.html" class="icon-link">
+            🛒 <span class="count">0</span>
+        </a>
+        <div id="user-status">
+            <a href="paginas/Login.html" id="login-link">Ingresar / Registrarse</a>
+            <div id="user-profile" style="display: none; align-items: center; gap: 10px;">
+                <span id="username-display" style="color: #ff9900; font-weight: bold;"></span>
+                <button id="logout-btn" style="background: #f0f0f0; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                    Cerrar sesión
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="banner">
+    <section class="hero">
+        <video class="imagen-invertida" autoplay loop muted playsinline>
+            <source src="../PaginaFocos/videos/Vídeo sin título ‐ Hecho con Clipchamp (1).mp4" type="video/mp4">
+            Tu navegador no soporta el tag de video.
+        </video>
+        <div class="hero-text">
+            <p>Descuentos: 10% OFF</p>
+            <p><span class="old-price">$75.90</span> <span class="new-price">$68.31</span></p>
+            <button>VER MÁS DESCUENTOS</button>
+        </div>
+    </section>
+    <div class="offer"></div>
+</section>
+
+    <main>
+        <h2>M&H ILUMINACIÓN, los expertos en iluminación</h2>
+        <p>¿Qué tipo de oferta buscas?</p>
+        <div class="categories">
+            <div class="product" onclick="abrirModal(1)">
+                <img src="imagenes/f1.jpg" alt="Doble Altura">
+                <p class="product-text">Lámpara Colgante</p>
+            </div>
+            <div class="product" onclick="abrirModal(2)">
+                <img src="imagenes/f2.jpg" alt="Led Integrado">
+                <p class="product-text">Lampara Estrella de Techo</p>
+            </div>
+            <div class="product" onclick="abrirModal(3)">
+                <img src="imagenes/f3.jpg" alt="De Techo">
+                <p class="product-text">Lampara de Techo</p>
+            </div>
+            <div class="product" onclick="abrirModal(4)">
+                <img src="imagenes/f4.jpg" alt="De Pared">
+                <p class="product-text">Lampara Lineal de techo</p>
+            </div>
+            <div class="product" onclick="abrirModal(5)">
+                <img src="imagenes/f5.jpg" alt="Doble Altura">
+                <p class="product-text">Lampara de Madera</p>
+            </div>
+            <div class="product" onclick="abrirModal(6)">
+                <img src="imagenes/f6.jpg" alt="Led Integrado">
+                <p class="product-text">Lampara de Alta Eficiencia</p>
+            </div>
+            <div class="product" onclick="abrirModal(7)">
+                <img src="imagenes/f7.jpg" alt="De Techo">
+                <p class="product-text">Luz led de Techo</p>
+            </div>
+            <div class="product" onclick="abrirModal(8)">
+                <img src="imagenes/f8.jpg" alt="De Pared">
+                <p class="product-text">Perfiles LED</p>
+            </div>
+            <div class="product" onclick="abrirModal(9)">
+                <img src="imagenes/f9.jpg" alt="Doble Altura">
+                <p class="product-text">Perfil LED</p>
+            </div>
+            <div class="product" onclick="abrirModal(10)">
+                <img src="imagenes/f10.jpg" alt="Led Integrado">
+                <p class="product-text">Lampara de Escritorio</p>
+            </div>
+        </div>
+
+      <div id="modalProducto" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal()">&times;</span>
+
+            <div class="producto-header">
+
+                <div class="producto-info">
+                    <h1 class="producto-titulo" id="modalProductTitle" data-product-id=""></h1>
+
+                    <div class="producto-rating">
+                        <span class="estrellas">★★★★☆</span>
+                        <span class="rating-count" id="ratingCount"></span>
+                    </div>
+
+                    <div class="mas-vendido" id="bestSellerBadge"></div>
+
+                    <div class="precio">
+                        Precio: <span class="precio-actual" id="modalProductPrice"></span>
+                    </div>
+
+                   <div class="opciones">
+                        <div class="opcion">
+                            <label for="productColor">Color:</label>
+                            <select id="productColor">
+                                <option value="">Seleccionar</option>
+                                <option value="negro">Negro</option>
+                                <option value="blanco">Blanco</option>
+                                <option value="gris">Gris</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="product-quantity">
+                        <button class="quantity-btn minus" onclick="cambiarCantidad(-1)">-</button>
+                        <input type="number" value="1" min="1" id="productQuantity">
+                        <button class="quantity-btn plus" onclick="cambiarCantidad(1)">+</button>
+                    </div>
+
+                    <button class="boton-carrito" onclick="agregarAlCarrito()">Agregar al carrito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<a class="whatsapp" href="https://wa.me/+593983544806" target="_blank">💬</a>
+
+<script src="js/script.js"></script> <script>
+    // Base de datos de productos
+    const productos = {
+        1: {
+            id: 1,
+            titulo: "Lámpara Colgante",
+            imagen: "../imagenes/f1.jpg",
+            precio: 29.99,
+            ratingCount: "153,068 calificaciones",
+            bestSeller: "más vendido en Lámparas de Techo",
+            detalles: {
+                "Tipo de tejido": "Metal y vidrio",
+                "Instrucciones de cuidado": "Limpiar con paño seco",
+                "Origen": "Importado",
+                "Tipo de instalación": "De techo"
+            },
+            acercaDe: [
+                "Diseño moderno de doble altura que crea un efecto de iluminación único",
+                "Ajuste perfecto para cualquier techo estándar",
+                "Materiales duraderos: Hecho de metal resistente y vidrio templado",
+                "Incluye bombilla LED de 12W con luz cálida (3000K)"
+            ]
+        },
+        2: {
+            id: 2,
+            titulo: "Lampara Estrella de Techo",
+            imagen: "../imagenes/f2.jpg",
+            precio: 24.99,
+            ratingCount: "87,452 calificaciones",
+            bestSeller: "más vendido en Focos LED",
+            detalles: {
+                "Tipo de tecnología": "LED",
+                "Potencia": "12W (equivalente a 75W)",
+                "Vida útil": "25,000 horas",
+                "Temperatura de color": "2700K (luz cálida)",
+                "Base": "E27 estándar"
+            },
+            acercaDe: [
+                "El icónico foco LED de alta eficiencia energética",
+                "Ahorra hasta un 85% en consumo eléctrico comparado con focos incandescentes",
+                "Luz instantánea sin parpadeos",
+                "Diseñado para durar años sin perder intensidad luminosa"
+            ]
+        },
+        3: {
+            id: 3,
+            titulo: "Lampara de Techo",
+            imagen: "../imagenes/f3.jpg",
+            precio: 24.99,
+            ratingCount: "87,452 calificaciones",
+            bestSeller: "más vendido en Focos LED",
+            detalles: {
+                "Tipo de tecnología": "LED",
+                "Potencia": "12W (equivalente a 75W)",
+                "Vida útil": "25,000 horas",
+                "Temperatura de color": "2700K (luz cálida)",
+                "Base": "E27 estándar"
+            },
+            acercaDe: [
+                "El icónico foco LED de alta eficiencia energética",
+                "Ahorra hasta un 85% en consumo eléctrico comparado con focos incandescentes",
+                "Luz instantánea sin parpadeos",
+                "Diseñado para durar años sin perder intensidad luminosa"
+            ]
+        },
+        4: {
+            id: 4,
+            titulo: "Lampara Lineal de techo",
+            imagen: "../imagenes/f4.jpg",
+            precio: 24.99,
+            ratingCount: "87,452 calificaciones",
+            bestSeller: "más vendido en Focos LED",
+            detalles: {
+                "Tipo de tecnología": "LED",
+                "Potencia": "12W (equivalente a 75W)",
+                "Vida útil": "25,000 horas",
+                "Temperatura de color": "2700K (luz cálida)",
+                "Base": "E27 estándar"
+            },
+            acercaDe: [
+                "El icónico foco LED de alta eficiencia energética",
+                "Ahorra hasta un 85% en consumo eléctrico comparado con focos incandescentes",
+                "Luz instantánea sin parpadeos",
+                "Diseñado para durar años sin perder intensidad luminosa"
+            ]
+        },
+        5: {
+            id: 5,
+            titulo: "Lampara de Madera",
+            imagen: "../imagenes/f5.jpg",
+            precio: 24.99,
+            ratingCount: "87,452 calificaciones",
+            bestSeller: "más vendido en Focos LED",
+            detalles: {
+                "Tipo de tecnología": "LED",
+                "Potencia": "12W (equivalente a 75W)",
+                "Vida útil": "25,000 horas",
+                "Temperatura de color": "2700K (luz cálida)",
+                "Base": "E27 estándar"
+            },
+            acercaDe: [
+                "El icónico foco LED de alta eficiencia energética",
+                "Ahorra hasta un 85% en consumo eléctrico comparado con focos incandescentes",
+                "Luz instantánea sin parpadeos",
+                "Diseñado para durar años sin perder intensidad luminosa"
+            ]
+        },
+        6: {
+            id: 6,
+            titulo: "Lampara de Alta Eficiencia",
+            imagen: "../imagenes/f6.jpg",
+            precio: 24.99,
+            ratingCount: "87,452 calificaciones",
+            bestSeller: "más vendido en Focos LED",
+            detalles: {
+                "Tipo de tecnología": "LED",
+                "Potencia": "12W (equivalente a 75W)",
+                "Vida útil": "25,000 horas",
+                "Temperatura de color": "2700K (luz cálida)",
+                "Base": "E27 estándar"
+            },
+            acercaDe: [
+                "El icónico foco LED de alta eficiencia energética",
+                "Ahorra hasta un 85% en consumo eléctrico comparado con focos incandescentes",
+                "Luz instantánea sin parpadeos",
+                "Diseñado para durar años sin perder intensidad luminosa"
+            ]
+        },
+        7: {
+            id: 7,
+            titulo: "Luz led de Techo",
+            imagen: "../imagenes/f7.jpg",
+            precio: 24.99,
+            ratingCount: "87,452 calificaciones",
+            bestSeller: "más vendido en Focos LED",
+            detalles: {
+                "Tipo de tecnología": "LED",
+                "Potencia": "12W (equivalente a 75W)",
+                "Vida útil": "25,000 horas",
+                "Temperatura de color": "2700K (luz cálida)",
+                "Base": "E27 estándar"
+            },
+            acercaDe: [
+                "El icónico foco LED de alta eficiencia energética",
+                "Ahorra hasta un 85% en consumo eléctrico comparado con focos incandescentes",
+                "Luz instantánea sin parpadeos",
+                "Diseñado para durar años sin perder intensidad luminosa"
+            ]
+        },
+        8: {
+            id: 8,
+            titulo: "Perfiles LED",
+            imagen: "../imagenes/f8.jpg",
+            precio: 24.99,
+            ratingCount: "87,452 calificaciones",
+            bestSeller: "más vendido en Focos LED",
+            detalles: {
+                "Tipo de tecnología": "LED",
+                "Potencia": "12W (equivalente a 75W)",
+                "Vida útil": "25,000 horas",
+                "Temperatura de color": "2700K (luz cálida)",
+                "Base": "E27 estándar"
+            },
+            acercaDe: [
+                "El icónico foco LED de alta eficiencia energética",
+                "Ahorra hasta un 85% en consumo eléctrico comparado con focos incandescentes",
+                "Luz instantánea sin parpadeos",
+                "Diseñado para durar años sin perder intensidad luminosa"
+            ]
+        },
+        9: {
+            id: 9,
+            titulo: "Perfil LED ",
+            imagen: "../imagenes/f9.jpg",
+            precio: 24.99,
+            ratingCount: "87,452 calificaciones",
+            bestSeller: "más vendido en Focos LED",
+            detalles: {
+                "Tipo de tecnología": "LED",
+                "Potencia": "12W (equivalente a 75W)",
+                "Vida útil": "25,000 horas",
+                "Temperatura de color": "2700K (luz cálida)",
+                "Base": "E27 estándar"
+            },
+            acercaDe: [
+                "El icónico foco LED de alta eficiencia energética",
+                "Ahorra hasta un 85% en consumo eléctrico comparado con focos incandescentes",
+                "Luz instantánea sin parpadeos",
+                "Diseñado para durar años sin perder intensidad luminosa"
+            ]
+        },
+        10: {
+            id: 10,
+            titulo: "Lampara de Escritorio",
+            imagen: "../imagenes/f10.jpg",
+            precio: 24.99,
+            ratingCount: "87,452 calificaciones",
+            bestSeller: "más vendido en Focos LED",
+            detalles: {
+                "Tipo de tecnología": "LED",
+                "Potencia": "12W (equivalente a 75W)",
+                "Vida útil": "25,000 horas",
+                "Temperatura de color": "2700K (luz cálida)",
+                "Base": "E27 estándar"
+            },
+            acercaDe: [
+                "El icónico foco LED de alta eficiencia energética",
+                "Ahorra hasta un 85% en consumo eléctrico comparado con focos incandescentes",
+                "Luz instantánea sin parpadeos",
+                "Diseñado para durar años sin perder intensidad luminosa"
+            ]
+        }
+    };
+
+    // Carrito en localStorage
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    let productoActual = null;
+
+    // Funciones del modal
+    function abrirModal(productoId) {
+        productoActual = productos[productoId];
+
+        // Llenar la información del producto
+
+        document.getElementById('modalProductTitle').textContent = productoActual.titulo;
+        document.getElementById('modalProductTitle').setAttribute('data-product-id', productoActual.id);
+        document.getElementById('ratingCount').textContent = productoActual.ratingCount;
+        document.getElementById('bestSellerBadge').textContent = "✔️ " + productoActual.bestSeller;
+        document.getElementById('modalProductPrice').textContent = `$${productoActual.precio.toFixed(2)}`; // Formatear precio
+
+        // Mostrar el modal
+        document.getElementById('modalProducto').style.display = 'block';
+    }
+
+    function cerrarModal() {
+        document.getElementById('modalProducto').style.display = 'none';
+        productoActual = null; // Limpiar el producto actual
+    }
+
+    function cambiarCantidad(cambio) {
+        const quantityInput = document.getElementById('productQuantity');
+        let currentQuantity = parseInt(quantityInput.value);
+        currentQuantity += cambio;
+        if (currentQuantity < 1) currentQuantity = 1; // Mínimo 1
+        quantityInput.value = currentQuantity;
+    }
+
+    function agregarAlCarrito() {
+        if (!productoActual) return;
+
+        const cantidad = parseInt(document.getElementById('productQuantity').value);
+        const colorSeleccionado = document.getElementById('productColor').value;
+
+        if (!colorSeleccionado) {
+            alert('Por favor, selecciona un color para el producto.');
+            return;
+        }
+
+        const itemExistente = carrito.find(item => item.id === productoActual.id && item.color === colorSeleccionado);
+
+        if (itemExistente) {
+            itemExistente.cantidad += cantidad;
+        } else {
+            carrito.push({
+                id: productoActual.id,
+                titulo: productoActual.titulo,
+                imagen: productoActual.imagen,
+                precio: productoActual.precio,
+                cantidad: cantidad,
+                color: colorSeleccionado
+            });
+        }
+
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        alert(`${cantidad} unidades de ${productoActual.titulo} (${colorSeleccionado}) añadidas al carrito.`);
+        cerrarModal();
+        updateCartCount(); // Actualizar el contador del carrito si tienes uno en tu header
+    }
+
+    // Función para actualizar el contador del carrito en el header (si lo tienes)
+    function updateCartCount() {
+        const cartCountElement = document.querySelector('.icon-link .count');
+        if (cartCountElement) {
+            const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+            cartCountElement.textContent = totalItems;
+        }
+    }
+
+    // Llama a updateCartCount al cargar la página para inicializarlo
+    document.addEventListener('DOMContentLoaded', updateCartCount);
+
+    // Cierre del modal al hacer clic fuera de él
+    window.onclick = function(event) {
+        const modal = document.getElementById('modalProducto');
+        if (event.target == modal) {
+            cerrarModal();
+        }
+    }
+
+</script>
+<!-- Pie de página -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3 class="footer-title">Sobre Nosotros</h3>
+            <ul class="footer-list">
+                <li><a href="paginas/quienesSomos.html">Quiénes Somos</a></li>
+                <li><a href="#">Contacto</a></li>
+                <li><a href="#">Políticas de la empresa</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3 class="footer-title">Nuestros Servicios</h3>
+            <ul class="footer-list">
+                <li><a href="#">Soporte Compras Web</a></li>
+                <li><a href="#">Facturas Electrónicas</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section newsletter">
+            <h3 class="footer-title">Comentarios</h3>
+            <form class="subscribe-form">
+                <input type="text" placeholder="Nombre" class="form-input">
+                <input type="text" placeholder="Apellido" class="form-input">
+                <input type="email" placeholder="E-mail" class="form-input">
+                <button type="submit" class="subscribe-btn">Suscribirse</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="copyright">
+        <p>© H&M ILUMINACIÓN. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+</body>
+</html>

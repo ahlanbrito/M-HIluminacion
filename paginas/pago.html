@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Verificación M&H ILUMINACIÓN - Pago</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #FFF3E0; /* Very light orange/cream */
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #FF8F00; /* Bright, warm orange */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Stronger shadow for depth */
+    color: #fff; /* White text for contrast */
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo span {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-left: 10px;
+    color: #FFF; /* Keep white text for logo */
+  }
+
+  /* Main container */
+  .container {
+    display: flex;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 20px auto; /* Add margin to top/bottom */
+    gap: 20px;
+  }
+
+  /* Payment methods */
+  .payment-methods {
+    flex: 2;
+    background-color: #FFFFFF; /* Keep white for clarity of input fields */
+    padding: 20px;
+    border-radius: 8px; /* Slightly more rounded corners */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08); /* Soft shadow */
+  }
+
+  .payment-title {
+    font-size: 1.3em; /* Slightly larger title */
+    margin-bottom: 15px;
+    color: #E65100; /* Darker orange for emphasis */
+    font-weight: bold;
+  }
+
+  .method {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 8px 0; /* A little padding for each method */
+    border-bottom: 1px solid #FFECB3; /* Light orange separator */
+  }
+    .method:last-child {
+        border-bottom: none; /* No border for the last item */
+    }
+
+
+  .method input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+    accent-color: #FF8F00; /* Orange radio button */
+  }
+
+  .method label {
+    display: flex;
+    align-items: center;
+    color: #333; /* Dark gray for text */
+    flex-wrap: wrap; /* Added this for better responsiveness from previous change */
+  }
+    .method label > * {
+        margin-right: 5px; /* Adjust spacing between elements within the label */
+    }
+
+
+  .method img {
+    height: 24px;
+    margin-right: 10px;
+  }
+    /* Style for payment logos group */
+    .payment-logos {
+        display: flex;
+        align-items: center;
+        gap: 5px; /* Space between card logos */
+    }
+    .payment-logos img {
+        height: 20px; /* Smaller height for grouped logos */
+        margin-right: 0; /* Remove default margin */
+    }
+
+
+  /* Summary side panel */
+  .summary {
+    flex: 1;
+    background-color: #ffffff; /* Light yellow/gold */
+    padding: 20px;
+    border-radius: 8px; /* Slightly more rounded corners */
+    height: fit-content;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08); /* Soft shadow */
+    color: #424242; /* Darker gray for summary text */
+  }
+
+  .summary h3 {
+    margin-top: 0;
+    color: #E65100; /* Darker orange for summary title */
+  }
+
+  .summary div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  /* Buttons */
+  .pay-button {
+    width: 100%;
+    padding: 15px; /* Slightly larger button */
+    background-color: #3a59f1; /* Warm orange button */
+    color: #fff;
+    font-size: 1.1em; /* Slightly larger font */
+    border: none;
+    border-radius: 6px; /* More rounded button */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+  }
+
+  .pay-button:hover {
+    background-color: #F57C00; /* Darker orange on hover */
+  }
+
+  /* Styles for links */
+  a {
+    color: #F57C00; /* Orange link color */
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* Additional styles */
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+  }
+
+  .checkbox-label input {
+    margin-right: 8px;
+  }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+            padding: 15px; /* Adjust padding for smaller screens */
+        }
+        .summary {
+            order: -1; /* Move summary above payment methods on smaller screens */
+            margin-bottom: 20px;
+        }
+        .header {
+            padding: 15px 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header {
+            padding: 10px 15px;
+        }
+        .header > div:last-child { /* Hide comments link on small screens */
+            display: none;
+        }
+        .payment-methods, .summary {
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .payment-title {
+            font-size: 1.1em;
+        }
+        .method label {
+            font-size: 0.9em;
+        }
+        .method img {
+            height: 20px;
+        }
+        .payment-logos img {
+            height: 18px;
+        }
+        .pay-button {
+            padding: 10px;
+            font-size: 0.9em;
+            border-radius: 4px;
+        }
+    }
+</style>
+</head>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const resumen = document.querySelector('.summary');
+    if (!resumen) return;
+
+    // Leer carrito desde localStorage
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    // Calcular subtotal y cantidad de artículos
+    let subtotal = 0;
+    let cantidadArticulos = 0;
+
+    carrito.forEach(producto => {
+      subtotal += producto.precio * producto.cantidad;
+      cantidadArticulos += producto.cantidad;
+    });
+
+    // Envío y total
+    const costoEnvio = subtotal > 100 ? 0 : 15;
+    const impuesto = 0.00;
+    const totalFinal = subtotal + costoEnvio + impuesto;
+
+    // Actualizar el resumen en el HTML
+    const resumenDivs = resumen.querySelectorAll('div');
+
+
+    if (resumenDivs.length >= 5) {
+      // Actualizar total final
+      resumenDivs[4].children[1].textContent = `$${totalFinal.toFixed(2)}`;
+    }
+  });
+</script>
+
+
+<body>
+  <div class="header">
+        <a href="../index.html" class="logo-link">
+        <div class="logo">M&H<span>M&H ILUMINACIÓN | Verificación</span>
+            <small> tienda online</small>
+        </div>
+    </a>
+
+      <a href="#" style="font-size:0.9em; color:#FFECB3;">¿Qué te parece nuestro checkout? Envíanos tus comentarios</a>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="payment-methods">
+      <div class="payment-title"><strong>Pago con</strong></div>
+      
+      <div class="method">
+        <input type="radio" id="klarna-installments" name="payment" />
+        <label for="klarna-installments">
+          <span style="background-color: #FFD29D; padding: 2px 8px; border-radius: 3px; font-size: 0.8em; color: #8B4513;">Klarna</span> &nbsp;Cuotas <span style="color: #A0522D;">NUEVO</span> <br />
+          <small style="margin-left: 34px;">4 pagos sin interés de $27.25 u otras opciones disponibles. <a href="#">Más información</a></small>
+        </label>
+      </div>
+
+      <div class="method">
+        <input type="radio" id="paypal" name="payment" checked />
+        <label for="paypal">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal Logo"/>
+          PayPal
+        </label>
+      </div>
+
+      <div class="method">
+        <input type="radio" id="mastercard" name="payment" />
+        <label for="mastercard">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard Logo"/>
+          MasterCard
+        </label>
+      </div>
+      
+
+      <div class="method">
+        <input type="radio" id="visa" name="payment" />
+        <label for="visa">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa Logo"/>
+          x-l605
+        </label>
+      </div>
+
+      <div class="method">
+        <input type="radio" id="add-new-card" name="payment" />
+        <label for="add-new-card" class="checkbox-label">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa Logo"/>
+          Añadir nueva tarjeta
+        </label>
+      </div>
+
+
+    </div>
+
+    <div class="summary">
+      <h3><strong>Resumen del pedido</strong></h3>
+
+      <div>
+        <span>Envío</span>
+        <span>$0.00</span>
+      </div>
+      <div>
+        <span>Subtotal</span>
+        <span>$0.00</span>
+      </div>
+      <hr style="border: none; border-top: 1px solid #FFB74D; margin: 10px 0;"> <div>
+        <strong>Total del pedido</strong>
+        <strong>$0.00</strong>
+      </div>
+      <p style="font-size:0.9em;">Al realizar su pedido, acepta el <a href="#">Acuerdo de usuario de M&H ILUMINACIÓN</a> y el <a href="#">Aviso de Privacidad</a>.</p>
+      <button class="pay-button">Pagar con PayPal</button>
+      <p style="margin-top:10px; font-size:0.9em;">Finalizará el pago en PayPal.</p>
+      <p style="margin-top:10px; font-size:0.8em; color:gray;">Compra protegida por la <a href="#">garantía de devolución de dinero de M&H ILUMINACIÓN</a></p>
+    </div>
+  </div>
+</body>
+</html> 
