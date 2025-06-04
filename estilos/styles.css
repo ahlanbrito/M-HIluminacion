@@ -630,3 +630,21 @@ input, select, textarea, button {
   object-fit: cover;
   border-radius: 8px;
 }
+.dark-mode {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+}
+
+#modo-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: gold;
+  color: black;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 999;
+}
