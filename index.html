@@ -31,7 +31,7 @@
 <section class="banner">
     <section class="hero">
         <video class="imagen-invertida" autoplay loop muted playsinline>
-            <source src="videos/Vídeo sin título ‐ Hecho con Clipchamp (1).mp4" type="video/mp4">
+            <source src="../PaginaFocos/videos/Vídeo sin título ‐ Hecho con Clipchamp (1).mp4" type="video/mp4">
             Tu navegador no soporta el tag de video.
         </video>
         <div class="hero-text">
@@ -458,12 +458,13 @@
 
         <div class="footer-section newsletter">
             <h3 class="footer-title">Comentarios</h3>
-            <form class="subscribe-form">
-                <input type="text" placeholder="Nombre" class="form-input">
-                <input type="text" placeholder="Correo" class="form-input">
-                <input type="email" placeholder="Comentario" class="form-input">
-                <button type="submit" class="subscribe-btn">Enviar</button>
-            </form>
+<form class="subscribe-form" action="guardar_comentarios.php" method="POST">
+    <input type="text" name="nombre" placeholder="Nombre" class="form-input" required>
+    <input type="email" name="correo" placeholder="Correo" class="form-input" required>
+    <textarea name="comentario" placeholder="Comentario" class="form-input" required></textarea>
+    <button type="submit" class="subscribe-btn">Enviar</button>
+</form>
+
         </div>
     </div>
 
@@ -471,6 +472,37 @@
         <p>© H&M ILUMINACIÓN. Todos los derechos reservados.</p>
     </div>
 </footer>
+<script>
+    document.querySelector(".subscribe-form").addEventListener("submit", function(e) {
+        e.preventDefault(); // Previene el envío real del formulario
+
+        // Obtener valores del formulario
+        const nombre = document.querySelector('input[placeholder="Nombre"]').value.trim();
+        const correo = document.querySelector('input[placeholder="Correo"]').value.trim();
+const comentario = document.querySelector('textarea[name="comentario"]').value.trim();
+
+        // Validar campos básicos
+        if (!nombre || !correo || !comentario) {
+            alert("Por favor, complete todos los campos.");
+            return;
+        }
+
+        // Crear contenido del archivo
+        const contenido = `Nombre: ${nombre}\nCorreo: ${correo}\nComentario: ${comentario}`;
+
+        // Crear un blob con el contenido del archivo
+        const blob = new Blob([contenido], { type: "text/plain" });
+
+        // Crear un enlace temporal y simular clic para descargar
+        const enlace = document.createElement("a");
+        enlace.href = URL.createObjectURL(blob);
+        enlace.download = "comentario.txt"; // Nombre del archivo que se descargará
+        enlace.click();
+
+        // Limpiar formulario
+        document.querySelector(".subscribe-form").reset();
+    });
+</script>
 
 </body>
 </html>
