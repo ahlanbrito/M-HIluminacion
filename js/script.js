@@ -129,3 +129,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("modo-toggle");
+
+  btn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    btn.textContent = document.body.classList.contains("dark-mode")
+      ? "☀️ Modo Claro"
+      : "🌙 Modo Oscuro";
+  });
+});
